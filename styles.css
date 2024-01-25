@@ -1,15 +1,10 @@
-
-body 
-{
+body {
+    margin: 0;
+    padding: 0;
     width: 100%;
     height: 100vh;
-    background-image: url("vish.jpg");
-    background-repeat: no-repeat;
-    background-size: cover ;
-    background-position: center;
+    background: url("vish.jpg") center/cover no-repeat; /* Use shorthand for background properties */
 }
-
-   
 
 header, nav, section, footer {
     margin: 20px;
@@ -20,19 +15,32 @@ header, nav, section, footer {
 }
 
 header {
+    background-color: #333;
+    color: #fff;
     text-align: center;
+    padding: 30px 0;
+}
+
+header h1 {
+    font-size: 2.5em;
+}
+
+header p {
+    font-size: 1.2em;
 }
 
 nav ul {
     list-style-type: none;
     padding: 0;
-    background-color: #333;
+    background-color: #444;
     overflow: hidden;
     border-radius: 5px;
+    display: flex;
+    justify-content: center;
 }
 
 nav ul li {
-    float: left;
+    margin-right: 15px;
 }
 
 nav ul li a {
@@ -50,6 +58,10 @@ nav ul li a:hover {
 
 section {
     margin-top: 30px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h2 {
@@ -60,14 +72,163 @@ p {
     color: #555;
 }
 
+.resume-entry ul {
+    list-style-type: square;
+    margin-left: 20px;
+}
+
+.portfolio-item {
+    margin-bottom: 20px;
+}
+
+.skills ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.dark-mode-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
 footer {
     text-align: center;
     margin-top: 50px;
     color: #888;
 }
-#home{
-    background-image: url("+.jpg");
-    background-repeat: no-repeat;
-    background-size: cover ;
-    background-position: center;
+
+a {
+    color: #2196F3;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+.dark-mode body {
+    background-color: #333;
+    color: #fff;
+}
+
+.dark-mode header {
+    background-color: #222;
+}
+
+.dark-mode nav ul {
+    background-color: #333;
+}
+
+.dark-mode nav ul li a {
+    color: #fff;
+}
+
+.dark-mode section {
+    background-color: #444;
+    color: #fff;
+}
+
+.dark-mode h2 {
+    color: #eee;
+}
+
+.dark-mode p {
+    color: #ccc;
+}
+
+.dark-mode .resume-entry ul {
+    list-style-type: square;
+    margin-left: 20px;
+}
+
+.dark-mode .portfolio-item {
+    background-color: #555;
+    color: #fff;
+}
+
+.dark-mode .skills ul {
+    background-color: #555;
+    color: #fff;
+}
+
+.dark-mode .dark-mode-toggle {
+    color: #fff;
+}
+
+.dark-mode a {
+    color: #64b5f6;
+}
+
+.dark-mode a:hover {
+    text-decoration: underline;
+}
+#home h2 {
+    animation: moveText 2s infinite;
+}
+
+@keyframes moveText {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(20px); /* Adjust the distance of the movement as needed */
+    }
+    100% {
+        transform: translateX(0);
+    }
 }

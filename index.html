@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>vishwanathareddy-Personal Website</title>
+    <title>Vishwanathareddy - Personal Website</title>
     <link rel="stylesheet" href="styles.css">
-   
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 
 <body> 
-   <header>
-        
-        <h1>vishwanath reddy</h1>
+    <header>
+        <h1>Vishwanath Reddy</h1>
         <p>Web Developer &mdash; Creative Thinker &mdash; Problem Solver</p>
     </header>
 
@@ -21,6 +21,8 @@
             <li><a href="#about">About Me</a></li>
             <li><a href="#resume">Resume</a></li>
             <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
@@ -32,43 +34,105 @@
 
     <section id="about">
         <h2>About Me</h2>
-        <p>Add your personal information and background here.</p>
-            <p>
-                I am a passionate web developer with a strong background in front-end technologies.
-                My curiosity and creativity drive me to explore new solutions and create engaging web experiences.
-                Feel free to learn more about my journey and interests!
-            </p>
-        </section>
-        
+        <p>
+            I am a passionate web developer with a strong background in front-end technologies.
+            My curiosity and creativity drive me to explore new solutions and create engaging web experiences.
+            Feel free to learn more about my journey and interests!
+        </p>
     </section>
 
     <section id="resume">
         <h2>Resume</h2>
-        <p>Add your professional experience and qualifications.</p>
+        <div class="resume-entry">
+            <h3>Web Developer</h3>
+            <p>Company XYZ, City, Country (Year - Year)</p>
+            <ul>
+                <li>Developed and maintained websites using HTML, CSS, and JavaScript.</li>
+                <li>Collaborated with cross-functional teams to implement web solutions.</li>
+                <li>Ensured website functionality and responsiveness across various devices.</li>
+            </ul>
+        </div>
+        <!-- Add more resume entries as needed -->
     </section>
 
     <section id="portfolio">
         <h2>Portfolio</h2>
-        <p>Showcase your work, projects, or achievements.</p>
+        <div class="portfolio-item">
+            <img src="project1.jpg" alt="Project 1">
+            <h3>Project 1</h3>
+            <p>Description of Project 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+
+        <div class="portfolio-item">
+            <img src="project2.jpg" alt="Project 2">
+            <h3>Project 2</h3>
+            <p>Description of Project 2. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+        <!-- Add more portfolio items as needed -->
+    </section>
+
+    <section id="skills">
+        <h2>Skills</h2>
+        <ul>
+            <li>HTML5</li>
+            <li>CSS3</li>
+            <li>JavaScript</li>
+            <li>React</li>
+            <li>Node.js</li>
+            <li>Git</li>
+        </ul>
+    </section>
+
+    <section id="projects">
+        <h2>Projects</h2>
+        <div class="project">
+            <h3>Project A</h3>
+            <p>Description of Project A.</p>
+        </div>
+
+        <div class="project">
+            <h3>Project B</h3>
+            <p>Description of Project B.</p>
+        </div>
+        <!-- Add more project items as needed -->
     </section>
 
     <section id="contact">
         <h2>Contact</h2>
-        <p>Provide ways for visitors to get in touch with you.</p>
-      <p>
-        Feel free to reach out to me via email at <a href="mailto:your.vishwanathareddy@598">vishwanathareddy@598.com</a>.
-        Connect with me on <a href="https://www.linkedin.com/in/vishwanatha789/" target="_blank" rel="noopener noreferrer">https://www.linkedin.com/in/vishwanatha789/</a>.
+        <p>
+            Feel free to reach out to me via email at
+            <a class="mail" href="mailto:your.vishwanathareddy@example.com" target="_blank"> 
+                <ion-icon name="mail-outline"></ion-icon>
+            </a>
+            Connect with me on
+            <a href="https://www.linkedin.com/in/vishwanatha789/" target="_blank">
+                <ion-icon name="logo-linkedin"></ion-icon>   
+            </a>
         </p>
     </section>
 
+    <section id="interactive-section">
+        <h2>Interactive Section</h2>
+        <div class="dark-mode-toggle">
+            <label class="switch">
+                <input type="checkbox" onclick="toggleDarkMode()">
+                <span class="slider round"></span>
+            </label>
+            <p>Toggle Dark Mode</p>
+        </div>
+    </section>
+
     <footer>
-        <p>&copy; 2024 Vishwanathareddy. @All rights reserved.</p>
+        <p>&copy; 2024 Vishwanath Reddy. All rights reserved.</p>
     </footer>
-    <p>
-        <a
-        href="file:///C:/Users/vishw/Desktop/mywebsite/Vishwanath_profile.html"> get in touch</a>
-    </p>
+
+    <script>
+        function toggleDarkMode() {
+            const body = document.body;
+            const isDarkMode = body.classList.contains('dark-mode');
+            body.classList.toggle('dark-mode', !isDarkMode);
+        }
+    </script>
+    
 </body>
 </html>
-
-    
