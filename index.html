@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en" class="min-h-screen overflow-x-hidden">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vishwanatha Reddy R - Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Three.js CDN for 3D hero section -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- D3.js CDN for data visualization -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Tailwind CSS Custom Colors Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'orange-primary': '#F47216',
+                        'orange-dark': '#D9640E',
+                        'orange-accent': '#FF9800',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="text-[#e0e0e0] font-inter dark:bg-[#101010] bg-[#181818] min-h-screen flex flex-col overflow-x-hidden">
+    <!-- The Three.js canvas is fixed to the viewport and positioned behind all content -->
+    <canvas id="hero-canvas"></canvas>
+    <main class="flex-1">
+        <style>
+            #hero-canvas {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                max-width: 100vw;
+                height: 100vh;
+                z-index: 0;
+                pointer-events: none;
+                overflow-x: hidden;
+            }
+            body > *:not(#hero-canvas) {
+                position: relative;
+                z-index: 1;
+            }
+            .carousel-images img {
+                width: 100%;
+                height: auto;
+                border-radius: 0.75rem;
+                object-fit: cover;
+            }
+            /* Custom cursor placeholder */
+            .custom-cursor {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                background: rgba(244, 114, 22, 0.7);
+                pointer-events: none;
+                z-index: 9999;
+                transform: translate(-50%, -50%);
+                transition: background 0.2s, transform 0.1s;
+                mix-blend-mode: difference;
+            }
+            .btn-primary:hover, .btn-secondary:hover {
+                transform: scale(1.05);
+                box-shadow: 0 4px 24px 0 #F47216aa;
+            }
+        </style>
+
+        <!-- Navigation Bar -->
+        <nav class="navbar fixed w-full top-0 left-0 p-4 transition-all duration-300">
+            <div class="container mx-auto flex justify-between items-center px-4">
+                <div class="flex flex-col items-start">
+                    <a href="#hero" class="text-2xl font-bold text-orange-primary hover:text-orange-dark transition-colors duration-300 nav-link-sound">Vishwanatha R</a>
+                    <p class="text-sm text-[#a0a0a0] mt-1 md:mt-0">Proficient Software Developer | Full-Stack Enthusiast</p>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#skills" class="nav-link text-lg font-medium hover:text-orange-primary nav-link-sound">Skills</a>
+                    <a href="#experience" class="nav-link text-lg font-medium hover:text-orange-primary nav-link-sound">Experience</a>
+                    <a href="#projects" class="nav-link text-lg font-medium hover:text-orange-primary nav-link-sound">Projects</a>
+                    <a href="#education" class="nav-link text-lg font-medium hover:text-orange-primary nav-link-sound">Education</a>
+                    <a href="#contact" class="nav-link text-lg font-medium hover:text-orange-primary nav-link-sound">Contact</a>
+                </div>
+                <!-- Dark/Light Mode Toggle -->
+                <button id="theme-toggle" class="ml-4 text-2xl text-orange-primary hover:text-orange-dark focus:outline-none" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            <!-- Mobile Menu Overlay -->
+            <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-black bg-opacity-95 z-50 flex flex-col items-center justify-center space-y-8 text-2xl">
+                <button id="close-mobile-menu" class="absolute top-4 right-4 text-white text-3xl focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+                <a href="#skills" class="nav-link text-white hover:text-orange-primary nav-link-sound" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Skills</a>
+                <a href="#experience" class="nav-link text-white hover:text-orange-primary nav-link-sound" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Experience</a>
+                <a href="#projects" class="nav-link text-white hover:text-orange-primary nav-link-sound" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Projects</a>
+                <a href="#education" class="nav-link text-white hover:text-orange-primary nav-link-sound" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Education</a>
+                <a href="#contact" class="nav-link text-white hover:text-orange-primary nav-link-sound" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Contact</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section id="hero" class="relative text-center text-white overflow-hidden w-full max-w-full py-6 md:py-10">
+            <div class="container mx-auto px-4 z-10 relative flex flex-col items-center justify-center h-full">
+                <p class="text-xl md:text-2xl text-[#a0a0a0] mb-8 animate-fade-in-up delay-200">Welcome to my Portfolio</p>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="container mx-auto px-4 fade-in w-full max-w-full py-6 md:py-10">
+            <h2 class="text-4xl font-bold text-center mb-12 text-orange-primary glitch-effect" data-text="Technical Skills">Technical Skills</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Languages -->
+                <div class="skill-card bg-[#1a1a1a] p-6 rounded-xl shadow-lg border border-[#2a2a2a] w-full max-w-full">
+                    <h3 class="text-2xl font-semibold mb-4 text-[#e0e0e0] flex items-center"><i class="fas fa-code mr-3 text-orange-primary"></i>Languages</h3>
+                    <ul class="list-none text-lg text-[#a0a0a0] space-y-2">
+                        <li class="flex items-center" data-skill-level="90"><i class="fab fa-java text-orange-primary mr-3 text-xl"></i>Java <div class="skill-bar ml-2" data-skill="90"></div></li>
+                        <li class="flex items-center" data-skill-level="85"><i class="fab fa-html5 text-orange-primary mr-3 text-xl"></i>HTML <div class="skill-bar ml-2" data-skill="85"></div></li>
+                        <li class="flex items-center" data-skill-level="80"><i class="fab fa-css3-alt text-orange-primary mr-3 text-xl"></i>CSS <div class="skill-bar ml-2" data-skill="80"></div></li>
+                    </ul>
+                    <div class="skill-chart" id="chart-languages"></div>
+                </div>
+                <!-- Frameworks/Tools -->
+                <div class="skill-card bg-[#1a1a1a] p-6 rounded-xl shadow-lg border border-[#2a2a2a] w-full max-w-full">
+                    <h3 class="text-2xl font-semibold mb-4 text-[#e0e0e0] flex items-center"><i class="fas fa-tools mr-3 text-orange-primary"></i>Frameworks/Tools</h3>
+                    <ul class="list-none text-lg text-[#a0a0a0] space-y-2">
+                        <li class="flex items-center" data-skill-level="90"><i class="fas fa-leaf text-orange-primary mr-3 text-xl"></i>Spring Boot <div class="skill-bar ml-2" data-skill="90"></div></li>
+                        <li class="flex items-center" data-skill-level="80"><i class="fas fa-code-branch text-orange-primary mr-3 text-xl"></i>Spring MVC <div class="skill-bar ml-2" data-skill="80"></div></li>
+                        <li class="flex items-center" data-skill-level="75"><i class="fas fa-database text-orange-primary mr-3 text-xl"></i>Hibernate <div class="skill-bar ml-2" data-skill="75"></div></li>
+                        <li class="flex items-center" data-skill-level="85"><i class="fas fa-exchange-alt text-orange-primary mr-3 text-xl"></i>REST APIs <div class="skill-bar ml-2" data-skill="85"></div></li>
+                        <li class="flex items-center" data-skill-level="70"><i class="fas fa-box-open text-orange-primary mr-3 text-xl"></i>Maven <div class="skill-bar ml-2" data-skill="70"></div></li>
+                        <li class="flex items-center" data-skill-level="65"><i class="fab fa-docker text-orange-primary mr-3 text-xl"></i>Docker <div class="skill-bar ml-2" data-skill="65"></div></li>
+                        <li class="flex items-center" data-skill-level="70"><i class="fas fa-laptop-code text-orange-primary mr-3 text-xl"></i>Eclipse <div class="skill-bar ml-2" data-skill="70"></div></li>
+                        <li class="flex items-center" data-skill-level="80"><i class="fas fa-paper-plane text-orange-primary mr-3 text-xl"></i>Postman <div class="skill-bar ml-2" data-skill="80"></div></li>
+                    </ul>
+                    <div class="skill-chart" id="chart-frameworks"></div>
+                </div>
+                <!-- Database -->
+                <div class="skill-card bg-[#1a1a1a] p-6 rounded-xl shadow-lg border border-[#2a2a2a] w-full max-w-full">
+                    <h3 class="text-2xl font-semibold mb-4 text-[#e0e0e0] flex items-center"><i class="fas fa-database mr-3 text-orange-primary"></i>Database</h3>
+                    <ul class="list-none text-lg text-[#a0a0a0] space-y-2">
+                        <li class="flex items-center" data-skill-level="85"><i class="fas fa-server text-orange-primary mr-3 text-xl"></i>MySQL <div class="skill-bar ml-2" data-skill="85"></div></li>
+                    </ul>
+                    <div class="skill-chart" id="chart-database"></div>
+                </div>
+                <!-- DevOps/Other -->
+                <div class="skill-card bg-[#1a1a1a] p-6 rounded-xl shadow-lg border border-[#2a2a2a] w-full max-w-full">
+                    <h3 class="text-2xl font-semibold mb-4 text-[#e0e0e0] flex items-center"><i class="fas fa-cloud mr-3 text-orange-primary"></i>DevOps/Other</h3>
+                    <ul class="list-none text-lg text-[#a0a0a0] space-y-2">
+                        <li class="flex items-center" data-skill-level="70"><i class="fab fa-git-alt text-orange-primary mr-3 text-xl"></i>Git <div class="skill-bar ml-2" data-skill="70"></div></li>
+                        <li class="flex items-center" data-skill-level="60"><i class="fas fa-ticket-alt text-orange-primary mr-3 text-xl"></i>Jira <div class="skill-bar ml-2" data-skill="60"></div></li>
+                        <li class="flex items-center" data-skill-level="75"><i class="fab fa-github text-orange-primary mr-3 text-xl"></i>GitHub <div class="skill-bar ml-2" data-skill="75"></div></li>
+                    </ul>
+                    <div class="skill-chart" id="chart-devops"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="container mx-auto px-4 fade-in w-full max-w-full py-6 md:py-10">
+            <h2 class="text-4xl font-bold text-center mb-12 text-orange-primary glitch-effect" data-text="Experience">Experience</h2>
+            <div class="relative max-w-4xl mx-auto timeline-container">
+                <!-- Timeline Line -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 w-1 bg-[#2a2a2a] h-full hidden md:block"></div>
+
+                <!-- Java Developer Intern -->
+                <div class="mb-12 flex flex-col md:flex-row items-center md:items-start justify-between">
+                    <div class="md:w-1/2 md:pr-8 text-right md:order-1 order-2 mt-4 md:mt-0">
+                        <div class="bg-[#1a1a1a] p-6 rounded-xl shadow-lg border border-[#2a2a2a] timeline-item">
+                            <h3 class="text-2xl font-semibold text-[#e0e0e0]">Java Developer Intern</h3>
+                            <p class="text-lg text-orange-primary mb-2">Excerpt Technologies, Bangalore</p>
+                            <p class="text-md text-[#a0a0a0] mb-4">Jul 2024 - Sep 2024</p>
+                            <ul class="list-disc list-inside text-md text-[#a0a0a0]">
+                                <li>Collaborated with front-end team to integrate user interfaces for Music Hub, ensuring seamless functionality.</li>
+                                <li>Developed backend services for Music Hub using Spring Boot, enhancing application performance.</li>
+                                <li>Implemented RESTful APIs for Music Hub, streamlining data access and user interactions.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 md:pl-8 md:order-2 order-1 flex justify-center md:justify-start">
+                        <div class="w-4 h-4 bg-orange-primary rounded-full absolute md:relative top-0 md:top-auto z-10 flex-shrink-0"></div>
+                    </div>
+                </div>
+
+                <!-- Customer Service Associate -->
+                <div class="mb-12 flex flex-col md:flex-row items-center md:items-start justify-between">
+                    <div class="md:w-1/2 md:pl-8 md:order-2 text-left md:mt-0 mt-4 order-2">
+                        <div class="bg-[#1a1a1a] p-6 rounded-xl shadow-lg border border-[#2a2a2a] timeline-item">
+                            <h3 class="text-2xl font-semibold text-[#e0e0e0]">Customer Service Associate</h3>
+                            <p class="text-lg text-orange-primary mb-2">Teleperformance, Bangalore</p>
+                            <p class="text-md text-[#a0a0a0] mb-4">Apr 2022 - Dec 2022</p>
+                            <ul class="list-disc list-inside text-md text-[#a0a0a0]">
+                                <li>Resolved complex client banking issues through proactive problem-solving during monthly meetings, ensuring high customer satisfaction.</li>
+                                <li>Led team briefings in the absence of the team leader, fostering clear communication and alignment on objectives.</li>
+                                <li>Analyzed performance reports to identify trends and implement strategies for process improvement.</li>
+                                <li>Collaborated with clients and internal teams to address queries, streamline operations, and enhance service delivery.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 md:pr-8 md:order-1 flex justify-center md:justify-end">
+                        <div class="w-4 h-4 bg-orange-primary rounded-full absolute md:relative top-0 md:top-auto z-10 flex-shrink-0"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="container mx-auto px-4 fade-in w-full max-w-full py-6 md:py-10">
+            <h2 class="text-4xl font-bold text-center mb-12 text-orange-primary glitch-effect" data-text="My Projects">My Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+
+                <!-- Project 1: Music Hub -->
+                <div class="project-card bg-[#1a1a1a] p-6 rounded-xl shadow-lg border border-[#2a2a2a] w-full max-w-full">
+                    <h3 class="text-2xl font-semibold mb-4 text-[#e0e0e0]">Music Hub</h3>
+                    <div class="carousel-container mb-4" data-project="music-hub">
+                        <div class="carousel-images w-full max-w-full">
+                            <img src="images/Music Hub - Home.png" alt="Music Hub Screenshot 1" loading="lazy">
+                            <img src="images/View Playlists.png" alt="Music Hub Screenshot 2" loading="lazy">
+                            <img src="images/View Songs - Customer.png" alt="Music Hub Screenshot 3" loading="lazy">
+                            <img src="images/Customer Dashboard - Music Application.png" alt="Music Hub Screenshot 4" loading="lazy">
+                        </div>
+                        <button class="carousel-button left btn-sound" onclick="prevSlide('music-hub')"><i class="fas fa-chevron-left"></i></button>
+                        <button class="carousel-button right btn-sound" onclick="nextSlide('music-hub')"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <p class="text-md text-[#a0a0a0] mb-4">Developed a full-stack music application using Java and Spring Boot, enabling user authentication, playlist creation, and song management. Engineered robust data persistence with JPA and Hibernate, designing and maintaining MySQL database schemas and entity relationships. Implemented RESTful APIs and dynamic web interfaces with Thymeleaf, optimizing user experience and application performance. Integrated Razorpay payment gateway for secure premium subscription processing, enhancing application functionality and user engagement.</p>
+                    <p class="text-sm text-[#707070] mb-4">Technologies: Java, Spring Boot, JPA, Hibernate, MySQL, REST APIs, Thymeleaf, Razorpay</p>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="https://musichub-e2rz.onrender.com/" target="_blank" class="btn-primary flex items-center text-sm btn-sound">
+                            <i class="fas fa-globe mr-2"></i>Live Demo
+                        </a>
+                        <a href="https://github.com/VISHWANATH2000/MusicHub" target="_blank" class="btn-secondary flex items-center text-sm btn-sound">
+                            <i class="fab fa-github mr-2"></i>GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 2: Expense Tracker -->
+                <div class="project-card bg-[#1a1a1a] p-6 rounded-xl shadow-lg border border-[#2a2a2a] w-full max-w-full">
+                    <h3 class="text-2xl font-semibold mb-4 text-[#e0e0e0]">Expense Tracker</h3>
+                    <div class="carousel-container mb-4" data-project="expense-tracker">
+                        <div class="carousel-images w-full max-w-full">
+                            <img src="images/Expenses Trakcer main page.png" alt="Expense Tracker Screenshot 1" loading="lazy">
+                            <img src="images/Expenses Trakcer main page (2).png" alt="Expense Tracker Screenshot 2" loading="lazy">
+                            <img src="images/add expense.png" alt="Expense Tracker Screenshot 3" loading="lazy">
+                        </div>
+                        <button class="carousel-button left btn-sound" onclick="prevSlide('expense-tracker')"><i class="fas fa-chevron-left"></i></button>
+                        <button class="carousel-button right btn-sound" onclick="nextSlide('expense-tracker')"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <p class="text-md text-[#a0a0a0] mb-4">Developed a web-based expense tracker using Spring Boot and Java for efficient expense management. Implemented secure user authentication and registration features. Designed intuitive interfaces for adding, updating, and viewing expenses. Enabled expense filtering and reporting to help users analyze their spending patterns.</p>
+                    <p class="text-sm text-[#707070] mb-4">Technologies: Java, Spring Boot, Thymeleaf</p>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="https://github.com/VISHWANATH2000/ExpenseTracker" target="_blank" class="btn-secondary flex items-center text-sm btn-sound">
+                            <i class="fab fa-github mr-2"></i>GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 3: Tax Calculation (New Project) -->
+                <div class="project-card bg-[#1a1a1a] p-6 rounded-xl shadow-lg border border-[#2a2a2a] w-full max-w-full">
+                    <h3 class="text-2xl font-semibold mb-4 text-[#e0e0e0]">Tax Calculation App</h3>
+                    <div class="carousel-container mb-4" data-project="tax-calculation">
+                        <div class="carousel-images w-full max-w-full">
+                            <img src="images/Dashboard - Tax Calculator.png" alt="Tax Calculation Screenshot 1" loading="lazy">
+                            <img src="images/Calculate Tax - Tax Calculator.png" alt="Tax Calculation Screenshot 2" loading="lazy">
+                            <img src="images/How It Works - Tax Calculator.png" alt="Tax Calculation Screenshot 3" loading="lazy">
+                        </div>
+                        <button class="carousel-button left btn-sound" onclick="prevSlide('tax-calculation')"><i class="fas fa-chevron-left"></i></button>
+                        <button class="carousel-button right btn-sound" onclick="nextSlide('tax-calculation')"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <p class="text-md text-[#a0a0a0] mb-4">A simple web application designed to calculate income tax based on user-provided income and deductions. This project demonstrates fundamental web development skills, including form handling, basic JavaScript calculations, and dynamic content updates. It provides a clear and intuitive interface for quick tax estimations.</p>
+                    <p class="text-sm text-[#707070] mb-4">Technologies: HTML, CSS, JavaScript</p>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="https://github.com/VISHWANATH2000/TaxCalculationApp" target="_blank" class="btn-secondary flex items-center text-sm btn-sound">
+                            <i class="fab fa-github mr-2"></i>GitHub
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="container mx-auto px-4 fade-in w-full max-w-full py-6 md:py-10">
+            <h2 class="text-4xl font-bold text-center mb-12 text-orange-primary glitch-effect" data-text="Education & Certifications">Education & Certifications</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Master of Computer Applications -->
+                <div class="bg-[#1a1a1a] p-6 rounded-xl shadow-lg border border-[#2a2a2a]">
+                    <h3 class="text-2xl font-semibold text-[#e0e0e0]">Master of Computer Applications</h3>
+                    <p class="text-lg text-orange-primary mb-2">SEA College of Science, Commerce and Arts, Bangalore</p>
+                    <p class="text-md text-[#a0a0a0] mb-2">2022-2024 | CGPA: 8.18</p>
+                    <p class="text-sm text-[#707070]">Relevant Courses: Java, Core Java, Data Structures, Spring Boot, MySQL</p>
+                </div>
+                <!-- Bachelor of Science in Computer Science -->
+                <div class="bg-[#1a1a1a] p-6 rounded-xl shadow-lg border border-[#2a2a2a]">
+                    <h3 class="text-2xl font-semibold text-[#e0e0e0]">Bachelor of Science in Computer Science</h3>
+                    <p class="text-lg text-orange-primary mb-2">RJS First Grade College, Bangalore</p>
+                    <p class="text-md text-[#a0a0a0] mb-2">2018-2021 | CGPA: 8.2</p>
+                    <p class="text-sm text-[#707070]">Relevant Courses: Java, Core Java, Data Structures, Spring Boot, MySQL</p>
+                </div>
+                <!-- Certifications -->
+                <div class="bg-[#1a1a1a] p-6 rounded-xl shadow-lg border border-[#2a2a2a] md:col-span-2">
+                    <h3 class="text-2xl font-semibold text-[#e0e0e0] mb-4">Certifications</h3>
+                    <ul class="list-disc list-inside text-lg text-[#a0a0a0]">
+                        <li>Java Full Stack: Excerpt Technologies (3 months, Core Java, Spring Boot, REST APIs, MySQL)</li>
+                        <li>Java Full Stack: Centum Foundation (1 month, Backend + Frontend)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- AR Experience Section (Conceptual) -->
+        <section id="ar-experience" class="container mx-auto px-4 fade-in text-center w-full max-w-full py-6 md:py-10">
+            <h2 class="text-4xl font-bold mb-12 text-orange-primary glitch-effect" data-text="AR Experience (Conceptual)">AR Experience (Conceptual)</h2>
+            <div class="max-w-2xl mx-auto bg-[#1a1a1a] p-8 rounded-xl shadow-lg border border-[#2a2a2a]">
+                <p class="text-lg text-center leading-relaxed mb-6">Imagine bringing my projects to life in augmented reality! This section is a conceptual placeholder for a future feature where you could scan a QR code with your phone to view 3D models of my projects or an interactive resume in AR.</p>
+                <button id="ar-button" class="btn-primary btn-sound">
+                    <i class="fas fa-cube mr-2"></i> Explore AR (Coming Soon)
+                </button>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="container mx-auto px-4 fade-in mb-0 pb-0 w-full max-w-full py-6 md:py-10">
+            <h2 class="text-4xl font-bold text-center mb-12 text-orange-primary glitch-effect" data-text="Get In Touch">Get In Touch</h2>
+            <div class="max-w-xl mx-auto bg-[#1a1a1a] p-8 rounded-xl shadow-lg border border-[#2a2a2a]">
+                <p class="text-center text-lg mb-6 text-[#a0a0a0]">I'm always open to new opportunities and collaborations. Feel free to reach out!</p>
+                <form class="space-y-6" id="contact-form">
+                    <div>
+                        <label for="name" class="block text-lg font-medium text-[#e0e0e0] mb-2">Name</label>
+                        <input type="text" id="name" name="name" class="contact-input w-full" placeholder="Your Name" required>
+                    </div>
+                    <div>
+                        <label for="email" class="block text-lg font-medium text-[#e0e0e0] mb-2">Email</label>
+                        <input type="email" id="email" name="email" class="contact-input w-full" placeholder="your.email@example.com" required>
+                    </div>
+                    <div>
+                        <label for="message" class="block text-lg font-medium text-[#e0e0e0] mb-2">Message</label>
+                        <textarea id="message" name="message" rows="5" class="contact-input w-full" placeholder="Your message..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary w-full btn-sound">Send Message</button>
+                </form>
+                <div class="text-center mt-8 space-x-6">
+                    <a href="tel:+917892279940" class="text-orange-primary hover:text-orange-dark text-2xl transition-colors duration-300">
+                        <i class="fas fa-phone"></i>
+                    </a>
+                    <a href="mailto:vishwanathareddy598@gmail.com" class="text-orange-primary hover:text-orange-dark text-2xl transition-colors duration-300">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/vishwanatha789" target="_blank" class="text-orange-primary hover:text-orange-dark text-2xl transition-colors duration-300">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/VISHWANATH2000" target="_blank" class="text-orange-primary hover:text-orange-dark text-2xl transition-colors duration-300">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+                <div class="flex justify-center space-x-4 mt-8">
+                    <button id="voice-ui-button" class="btn-secondary flex items-center text-sm btn-sound">
+                        <i class="fas fa-microphone mr-2"></i> Voice Assistant
+                    </button>
+                    <button id="chatbot-button" class="btn-secondary flex items-center text-sm btn-sound">
+                        <i class="fas fa-robot mr-2"></i> AI Chatbot
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-[#1a1a1a] p-6 text-center text-[#a0a0a0] text-sm border-t border-[#2a2a2a] mt-0">
+        <p>&copy; 2024 Vishwanatha Reddy R. All rights reserved.</p>
+    </footer>
+
+    <!-- Custom Modal for Messages -->
+    <div id="custom-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[1001]">
+        <div class="bg-[#1a1a1a] p-8 rounded-xl shadow-lg border border-[#2a2a2a] max-w-sm w-full text-center relative">
+            <button id="close-modal" class="absolute top-3 right-3 text-white text-2xl focus:outline-none">
+                <i class="fas fa-times"></i>
+            </button>
+            <p id="modal-message" class="text-lg text-white mb-4"></p>
+            <button id="modal-ok-button" class="btn-primary btn-sound">OK</button>
+        </div>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+    <div class="custom-cursor" id="custom-cursor"></div>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+        (function(){
+            emailjs.init("YOUR_USER_ID"); // Replace with your EmailJS user ID
+        })();
+    </script>
+</body>
+</html>
