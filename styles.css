@@ -415,3 +415,155 @@ section {
 #custom-modal {
     transition: opacity 0.3s ease-in-out;
 }
+
+/* Advanced Animations */
+.floating {
+    animation: floating 3s ease-in-out infinite;
+}
+@keyframes floating {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+}
+@keyframes pulse-glow {
+    0% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.3); }
+    100% { box-shadow: 0 0 30px rgba(0, 212, 255, 0.8); }
+}
+
+.slide-in-left {
+    animation: slide-in-left 0.8s ease-out;
+}
+@keyframes slide-in-left {
+    from { transform: translateX(-100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.slide-in-right {
+    animation: slide-in-right 0.8s ease-out;
+}
+@keyframes slide-in-right {
+    from { transform: translateX(100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.fade-in-up {
+    animation: fade-in-up 0.8s ease-out;
+}
+@keyframes fade-in-up {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.scale-in {
+    animation: scale-in 0.6s ease-out;
+}
+@keyframes scale-in {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.rotate-3d {
+    transition: transform 0.3s ease;
+}
+.rotate-3d:hover {
+    transform: perspective(1000px) rotateY(10deg) rotateX(5deg);
+}
+
+.tilt-effect {
+    transition: transform 0.3s ease;
+}
+.tilt-effect:hover {
+    transform: perspective(1000px) rotateY(5deg) rotateX(5deg) scale(1.02);
+}
+
+.particle-bg {
+    position: relative;
+    overflow: hidden;
+}
+.particle-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle at 20% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 20%, rgba(244, 114, 22, 0.1) 0%, transparent 50%),
+                      radial-gradient(circle at 40% 40%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+    animation: particle-float 20s ease-in-out infinite;
+}
+@keyframes particle-float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-20px) rotate(120deg); }
+    66% { transform: translateY(10px) rotate(240deg); }
+}
+
+.text-shimmer {
+    background: linear-gradient(90deg, #F47216, #00D4FF, #8B5CF6, #F47216);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s ease-in-out infinite;
+}
+@keyframes shimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Futuristic Effects */
+.glassmorphism {
+    background: rgba(26, 26, 26, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.neon-glow {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+}
+
+.neon-glow-orange {
+    box-shadow: 0 0 20px rgba(244, 114, 22, 0.5);
+}
+
+.gradient-bg {
+    background: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 50%, #2A2A2A 100%);
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #F47216 0%, #00D4FF 50%, #8B5CF6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.cyber-border {
+    border: 1px solid;
+    border-image: linear-gradient(45deg, #F47216, #00D4FF, #8B5CF6) 1;
+}
+
+/* Skill bar animations */
+.skill-bar {
+    display: inline-block;
+    vertical-align: middle;
+    min-width: 40px;
+    max-width: 120px;
+    margin-left: 8px;
+    background: #222;
+    transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+.timeline-item {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s, transform 0.7s;
+}
+
+.timeline-item.timeline-visible {
+    opacity: 1;
+    transform: translateY(0);
+}

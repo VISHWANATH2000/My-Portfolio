@@ -194,38 +194,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function animateThreeJS() {
         requestAnimationFrame(animateThreeJS);
-
+        if (!scene || !camera || !renderer || !dodecahedron || !spaceships) return;
         // Smoothly move camera towards target
         targetX += (mouseX - targetX) * 0.05;
         targetY += (mouseY - targetY) * 0.05;
         camera.position.x += (targetX - camera.position.x) * 0.05;
         camera.position.y += (-targetY - camera.position.y) * 0.05;
         camera.lookAt(scene.position);
-
         // Rotate dodecahedron
-        dodecahedron.rotation.x += 0.002; // Slower rotation
+        dodecahedron.rotation.x += 0.002;
         dodecahedron.rotation.y += 0.003;
-
         // Animate spaceships
         spaceships.forEach((ship, index) => {
-            // Move forward along its local Z-axis
             ship.translateZ(ship.userData.speed);
-
-            // Subtle oscillation
             ship.position.y += Math.sin(Date.now() * 0.001 + ship.userData.oscillationOffset) * ship.userData.oscillation;
-
-            // Loop spaceships when they go out of view
-            if (ship.position.z > camera.position.z + 50) { // If too far in front
-                ship.position.z = camera.position.z - 100; // Reset far behind camera
+            if (ship.position.z > camera.position.z + 50) {
+                ship.position.z = camera.position.z - 100;
                 ship.position.x = (Math.random() * 2 - 1) * 50;
                 ship.position.y = (Math.random() * 2 - 1) * 50;
-            } else if (ship.position.z < camera.position.z - 100) { // If too far behind
-                ship.position.z = camera.position.z + 50; // Reset far in front
+            } else if (ship.position.z < camera.position.z - 100) {
+                ship.position.z = camera.position.z + 50;
                 ship.position.x = (Math.random() * 2 - 1) * 50;
                 ship.position.y = (Math.random() * 2 - 1) * 50;
             }
         });
-
         renderer.render(scene, camera);
     }
 
@@ -467,58 +459,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Custom cursor
-    const cursor = document.getElementById('custom-cursor');
-    document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-    });
-    // Cursor grow on button hover
-    const btns = document.querySelectorAll('.btn-primary, .btn-secondary, .btn-sound');
-    btns.forEach(btn => {
-        btn.addEventListener('mouseenter', () => {
-            cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
-        });
-        btn.addEventListener('mouseleave', () => {
-            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-        });
-    });
-
-    // Placeholder: Three.js hero animation (simple floating particles)
-    if (window.THREE) {
-        const canvas = document.getElementById('hero-canvas');
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 5;
-        // Create particles
-        const particles = new THREE.Group();
-        for (let i = 0; i < 100; i++) {
-            const geometry = new THREE.SphereGeometry(0.03, 8, 8);
-            const material = new THREE.MeshBasicMaterial({ color: 0xF47216 });
-            const sphere = new THREE.Mesh(geometry, material);
-            sphere.position.set(
-                (Math.random() - 0.5) * 8,
-                (Math.random() - 0.5) * 5,
-                (Math.random() - 0.5) * 4
-            );
-            particles.add(sphere);
-        }
-        scene.add(particles);
-        function animateParticles() {
-            requestAnimationFrame(animateParticles);
-            particles.rotation.y += 0.001;
-            renderer.render(scene, camera);
-        }
-        animateParticles();
-        window.addEventListener('resize', () => {
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-        });
-    }
-
     // Animated skill bars
     function animateSkillBars() {
         document.querySelectorAll('.skill-bar').forEach(bar => {
@@ -565,27 +505,32 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', animateTimeline);
     window.addEventListener('DOMContentLoaded', animateTimeline);
 
-    // Add required CSS for skill bars and timeline animation
-    const style = document.createElement('style');
-    style.innerHTML = `
-    .skill-bar {
-        display: inline-block;
-        vertical-align: middle;
-        min-width: 40px;
-        max-width: 120px;
-        margin-left: 8px;
-        background: #222;
-        transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
-    }
-    .timeline-item {
-        opacity: 0;
-        transform: translateY(40px);
-        transition: opacity 0.7s, transform 0.7s;
-    }
-    .timeline-item.timeline-visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    `;
-    document.head.appendChild(style);
+    // Scroll-triggered animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const element = entry.target;
+                const animation = element.getAttribute('data-animate');
+                if (animation) {
+                    element.classList.add(animation);
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            }
+        });
+    }, observerOptions);
+
+    // Observe all elements with data-animate attribute
+    const animatedElements = document.querySelectorAll('[data-animate]');
+    animatedElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
 });
