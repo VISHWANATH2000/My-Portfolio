@@ -46,15 +46,52 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 2. Smooth Scrolling for Navigation Links ---
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    // --- 2. Smooth Scrolling for Navigation Links with Navbar Offset & Active Highlight ---
+    const navLinks = Array.from(document.querySelectorAll('a[href^="#"]'));
+    function getNavbarHeight() {
+        const nb = document.querySelector('.navbar');
+        return nb ? nb.offsetHeight : 0;
+    }
+    function smoothScrollTo(target) {
+        const el = document.querySelector(target);
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const offset = window.pageYOffset + rect.top - getNavbarHeight();
+        window.scrollTo({ top: Math.max(offset, 0), behavior: 'smooth' });
+    }
+    navLinks.forEach(anchor => {
         anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (!href || !href.startsWith('#')) return;
             e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+            smoothScrollTo(href);
         });
     });
+
+    // Active section highlighting
+    const sections = Array.from(document.querySelectorAll('main section[id]'));
+    const linkById = new Map(
+        navLinks
+            .filter(a => a.getAttribute('href') && a.getAttribute('href').startsWith('#'))
+            .map(a => [a.getAttribute('href').slice(1), a])
+    );
+    function updateActiveLink() {
+        const navHeight = getNavbarHeight() + 10;
+        let currentId = null;
+        sections.forEach(sec => {
+            const top = sec.offsetTop - navHeight;
+            if (window.pageYOffset >= top) currentId = sec.id;
+        });
+        linkById.forEach((link, id) => {
+            if (id === currentId) {
+                link.classList.add('text-orange-primary');
+            } else {
+                link.classList.remove('text-orange-primary');
+            }
+        });
+    }
+    window.addEventListener('scroll', updateActiveLink);
+    window.addEventListener('load', updateActiveLink);
 
     // --- 3. Hero Section Interactive 3D (Three.js) ---
     const canvas = document.getElementById('hero-canvas');
@@ -262,6 +299,12 @@ document.addEventListener('DOMContentLoaded', () => {
             imagesContainer: container.querySelector('.carousel-images'),
             images: Array.from(container.querySelectorAll('.carousel-images img'))
         };
+        // Add skeleton class until loaded
+        carousels[projectId].images.forEach(img => {
+            img.classList.add('skeleton');
+            img.addEventListener('load', () => img.classList.remove('skeleton'));
+            img.addEventListener('error', () => img.classList.remove('skeleton'));
+        });
         updateCarousel(projectId); // Initialize carousel display
     });
 
@@ -422,18 +465,51 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // EmailJS integration for contact form
+    // EmailJS integration for contact form + basic validation + UI feedback
     var contactForm = document.getElementById('contact-form');
     if (contactForm) {
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const messageInput = document.getElementById('message');
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+
+        function setFieldError(input, isError) {
+            if (isError) {
+                input.classList.add('border-red-500');
+            } else {
+                input.classList.remove('border-red-500');
+            }
+        }
+
+        function isValidEmail(value) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+        }
+
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            // EmailJS send
+
+            // Client-side validation
+            let hasError = false;
+            if (!nameInput.value.trim()) { setFieldError(nameInput, true); hasError = true; } else { setFieldError(nameInput, false); }
+            if (!isValidEmail(emailInput.value.trim())) { setFieldError(emailInput, true); hasError = true; } else { setFieldError(emailInput, false); }
+            if (!messageInput.value.trim()) { setFieldError(messageInput, true); hasError = true; } else { setFieldError(messageInput, false); }
+            if (hasError) { showModal('Please fill out all fields correctly.'); return; }
+
+            // Disable button and show sending state
+            const originalText = submitButton.textContent;
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+
             emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this, 'YOUR_USER_ID')
                 .then(function() {
                     showModal('Message sent successfully!');
                     contactForm.reset();
                 }, function(error) {
                     showModal('Failed to send message. Please try again later.');
+                })
+                .finally(function() {
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalText;
                 });
         });
     }
@@ -533,4 +609,208 @@ document.addEventListener('DOMContentLoaded', () => {
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
     });
+
+    // --- 9. Project Filters ---
+    const projectFilters = document.querySelectorAll('.project-filter');
+    const projectsGrid = document.getElementById('projects-grid');
+    function applyProjectFilter(tag) {
+        if (!projectsGrid) return;
+        const cards = projectsGrid.querySelectorAll('.project-card');
+        cards.forEach(card => {
+            const tags = (card.getAttribute('data-tags') || '').split(/\s+/);
+            const show = tag === 'all' || tags.includes(tag);
+            card.style.display = show ? '' : 'none';
+        });
+    }
+    projectFilters.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tag = btn.getAttribute('data-filter');
+            applyProjectFilter(tag);
+            projectFilters.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            try { localStorage.setItem('projectFilter', tag); } catch(e) {}
+        });
+    });
+    // Apply persisted filter on load
+    try {
+        const saved = localStorage.getItem('projectFilter');
+        if (saved) {
+            applyProjectFilter(saved);
+            projectFilters.forEach(b => {
+                if (b.getAttribute('data-filter') === saved) b.classList.add('active');
+                else b.classList.remove('active');
+            });
+        } else {
+            // default to all
+            const allBtn = Array.from(projectFilters).find(b => b.getAttribute('data-filter') === 'all');
+            if (allBtn) allBtn.classList.add('active');
+        }
+    } catch(e) {}
+
+    // --- 10. Back to Top Button ---
+    const backToTop = document.getElementById('back-to-top');
+    if (backToTop) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) backToTop.classList.remove('hidden');
+            else backToTop.classList.add('hidden');
+        });
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    // --- 11. Dynamic Footer Year ---
+    const footerYear = document.getElementById('footer-year');
+    if (footerYear) {
+        footerYear.textContent = new Date().getFullYear();
+    }
+
+    // --- 12. Copy Email ---
+    const copyEmailBtn = document.getElementById('copy-email');
+    const emailLink = document.getElementById('email-link');
+    if (copyEmailBtn && emailLink) {
+        copyEmailBtn.addEventListener('click', async () => {
+            const email = (emailLink.getAttribute('href') || '').replace('mailto:', '');
+            try {
+                await navigator.clipboard.writeText(email);
+                showModal('Email copied to clipboard.');
+            } catch (e) {
+                showModal('Could not copy email.');
+            }
+        });
+    }
+
+    // --- 13. Lightbox for images ---
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-image');
+    const lightboxClose = document.getElementById('lightbox-close');
+    function openLightbox(src, alt) {
+        if (!lightbox || !lightboxImg) return;
+        lightboxImg.src = src;
+        lightboxImg.alt = alt || 'Preview';
+        lightbox.classList.remove('hidden');
+        lightbox.classList.add('flex');
+    }
+    function closeLightbox() {
+        if (!lightbox) return;
+        lightbox.classList.add('hidden');
+        lightbox.classList.remove('flex');
+        if (lightboxImg) lightboxImg.src = '';
+    }
+    if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+    if (lightbox) {
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+    }
+    document.querySelectorAll('.lightbox-trigger').forEach(img => {
+        img.addEventListener('click', () => openLightbox(img.src, img.alt));
+    });
+
+    // --- 18. Upgrade images to WebP when available ---
+    function upgradeToWebP(img) {
+        const src = img.getAttribute('src');
+        if (!src || src.endsWith('.webp')) return;
+        const webp = src.replace(/\.(png|jpg|jpeg)$/i, '.webp');
+        if (webp === src) return;
+        fetch(webp, { method: 'HEAD' })
+            .then(res => { if (res.ok) img.src = webp; })
+            .catch(() => {});
+    }
+    document.querySelectorAll('img').forEach(upgradeToWebP);
+
+    // --- 14. Command Palette (Global Search) ---
+    const palette = document.createElement('div');
+    palette.id = 'command-palette';
+    palette.className = 'hidden fixed inset-0 z-[1003] items-start justify-center bg-black bg-opacity-50 pt-24';
+    palette.innerHTML = `
+        <div class="w-11/12 md:w-2/3 lg:w-1/2 bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl shadow-2xl overflow-hidden">
+            <input id="cp-input" type="text" placeholder="Search sections, projects..." class="w-full px-4 py-3 bg-[#121212] text-white outline-none border-b border-[#2a2a2a]" />
+            <ul id="cp-list" class="max-h-80 overflow-auto"></ul>
+        </div>`;
+    document.body.appendChild(palette);
+    const cpInput = palette.querySelector('#cp-input');
+    const cpList = palette.querySelector('#cp-list');
+    function openPalette() {
+        palette.classList.remove('hidden');
+        palette.classList.add('flex');
+        cpInput.value = '';
+        renderPalette('');
+        setTimeout(() => cpInput.focus(), 0);
+    }
+    function closePalette() {
+        palette.classList.add('hidden');
+        palette.classList.remove('flex');
+    }
+    function renderPalette(q) {
+        const items = [];
+        // Sections
+        document.querySelectorAll('main section[id]').forEach(sec => {
+            const name = sec.querySelector('h2') ? sec.querySelector('h2').textContent.trim() : sec.id;
+            items.push({ label: `Section: ${name}`, action: () => smoothScrollTo('#' + sec.id) });
+        });
+        // Projects
+        document.querySelectorAll('.project-card h3').forEach(h3 => {
+            const projectName = h3.textContent.trim();
+            items.push({ label: `Project: ${projectName}`, action: () => smoothScrollTo('#projects') });
+        });
+        const ql = q.toLowerCase();
+        const filtered = items.filter(it => it.label.toLowerCase().includes(ql));
+        cpList.innerHTML = '';
+        filtered.forEach((it, idx) => {
+            const li = document.createElement('li');
+            li.className = 'px-4 py-3 hover:bg-[#222] cursor-pointer text-[#ddd]';
+            li.textContent = it.label;
+            li.addEventListener('click', () => { it.action(); closePalette(); });
+            cpList.appendChild(li);
+        });
+    }
+    document.addEventListener('keydown', (e) => {
+        if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+            e.preventDefault();
+            openPalette();
+        } else if (e.key === 'Escape') {
+            closePalette();
+        }
+    });
+    cpInput && cpInput.addEventListener('input', (e) => renderPalette(e.target.value));
+
+    // (Removed) Case Study Modals and buttons per user request
+
+    // --- 16. Floating Contact Button ---
+    const floatingBtn = document.createElement('button');
+    floatingBtn.id = 'floating-contact';
+    floatingBtn.className = 'fixed bottom-6 left-6 btn-primary btn-sound';
+    floatingBtn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Contact';
+    document.body.appendChild(floatingBtn);
+    floatingBtn.addEventListener('click', () => smoothScrollTo('#contact'));
+
+    // --- 17. Reduced Motion Support ---
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (prefersReduced.matches) {
+        // Disable certain animations
+        window.removeEventListener('scroll', animateTimeline);
+        animatedElements.forEach(el => {
+            el.style.transition = 'none';
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+        });
+    }
+
+    // Resume download graceful handling
+    const resumeLink = document.getElementById('resume-download');
+    if (resumeLink) {
+        resumeLink.addEventListener('click', async (e) => {
+            try {
+                const res = await fetch(resumeLink.getAttribute('href'), { method: 'HEAD' });
+                if (!res.ok) {
+                    e.preventDefault();
+                    showModal('Resume not found. Please add resume.pdf to the project root.');
+                }
+            } catch (err) {
+                e.preventDefault();
+                showModal('Unable to access resume right now. Please try again later.');
+            }
+        });
+    }
 });

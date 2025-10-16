@@ -4,6 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vishwanatha Reddy R - Portfolio</title>
+    <meta name="description" content="Associate Data Engineer and Software Developer portfolio showcasing data engineering, backend, and full-stack projects.">
+    <meta property="og:title" content="Vishwanatha Reddy R - Portfolio">
+    <meta property="og:description" content="Associate Data Engineer and Software Developer portfolio showcasing data engineering, backend, and full-stack projects.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-domain.example/">
+    <meta property="og:image" content="https://your-domain.example/images/og-preview.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Vishwanatha Reddy R - Portfolio">
+    <meta name="twitter:description" content="Associate Data Engineer and Software Developer portfolio showcasing data engineering, backend, and full-stack projects.">
+    <meta name="twitter:image" content="https://your-domain.example/images/og-preview.png">
+    <link rel="canonical" href="https://your-domain.example/" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Vishwanatha Reddy R",
+      "jobTitle": "Associate Data Engineer",
+      "url": "https://your-domain.example/",
+      "sameAs": [
+        "https://linkedin.com/in/vishwanatha789",
+        "https://github.com/VISHWANATH2000"
+      ]
+    }
+    </script>
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <!-- Tailwind CSS CDN -->
@@ -13,9 +37,9 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Three.js CDN for 3D hero section -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
     <!-- D3.js CDN for data visualization -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js" defer></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
 
@@ -43,6 +67,7 @@
     </script>
 </head>
 <body class="text-[#e0e0e0] font-inter dark:bg-[#101010] bg-[#181818] min-h-screen flex flex-col overflow-x-hidden">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[1002] focus:bg-[#1a1a1a] focus:text-white focus:px-4 focus:py-2 focus:rounded">Skip to content</a>
     <!-- The Three.js canvas is fixed to the viewport and positioned behind all content -->
     <canvas id="hero-canvas"></canvas>
     <header>
@@ -53,7 +78,7 @@
                     <p class="text-sm text-[#a0a0a0] mt-1 md:mt-0">Proficient Software Developer | Full-Stack Enthusiast</p>
                 </div>
                 <div class="hidden md:flex space-x-8">
-                    <a href="#skills" class="nav-link text-lg font-medium hover:text-orange-primary nav-link-sound">Skills</a>
+                    <a href="#skills" class="nav-link text-lg font-medium hover:text-orange-primary nav-link-sound">Technologies</a>
                     <a href="#experience" class="nav-link text-lg font-medium hover:text-orange-primary nav-link-sound">Experience</a>
                     <a href="#projects" class="nav-link text-lg font-medium hover:text-orange-primary nav-link-sound">Projects</a>
                     <a href="#education" class="nav-link text-lg font-medium hover:text-orange-primary nav-link-sound">Education</a>
@@ -73,7 +98,7 @@
                 <button id="close-mobile-menu" class="absolute top-4 right-4 text-white text-3xl focus:outline-none">
                     <i class="fas fa-times"></i>
                 </button>
-                <a href="#skills" class="nav-link text-white hover:text-orange-primary nav-link-sound" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Skills</a>
+                <a href="#skills" class="nav-link text-white hover:text-orange-primary nav-link-sound" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Technologies</a>
                 <a href="#experience" class="nav-link text-white hover:text-orange-primary nav-link-sound" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Experience</a>
                 <a href="#projects" class="nav-link text-white hover:text-orange-primary nav-link-sound" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Projects</a>
                 <a href="#education" class="nav-link text-white hover:text-orange-primary nav-link-sound" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Education</a>
@@ -81,7 +106,7 @@
             </div>
         </nav>
     </header>
-    <main class="flex-1" role="main">
+    <main id="main-content" class="flex-1" role="main">
         <!-- Hero Section -->
         <section id="hero" class="relative text-center text-white overflow-hidden w-full max-w-full py-6 md:py-10 particle-bg" aria-label="Hero">
             <div class="container mx-auto px-4 z-10 relative flex flex-col items-center justify-center h-full">
@@ -91,50 +116,25 @@
 
         <!-- Skills Section -->
         <section id="skills" class="container mx-auto px-4 fade-in w-full max-w-full py-6 md:py-10" aria-labelledby="skills-heading">
-            <h2 id="skills-heading" class="text-4xl font-bold text-center mb-12 text-shimmer glitch-effect" data-text="Technical Skills">Technical Skills</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                <!-- Languages -->
+            <h2 id="skills-heading" class="text-4xl font-bold text-center mb-12 text-shimmer glitch-effect" data-text="Technologies">Technologies</h2>
+            <div class="grid grid-cols-1 gap-8 max-w-3xl mx-auto">
+                <!-- Technologies (Data Engineering) -->
                 <div class="skill-card glassmorphism p-6 rounded-xl shadow-lg cyber-border w-full max-w-full hover:neon-glow transition-all duration-300 tilt-effect" data-animate="slide-in-left">
-                    <h3 class="text-2xl font-semibold mb-4 text-[#e0e0e0] flex items-center"><i class="fas fa-code mr-3 text-orange-primary"></i>Languages</h3>
-                    <ul class="list-none text-lg text-[#a0a0a0] space-y-2">
-                        <li class="flex items-center" data-skill-level="90"><i class="fab fa-java text-orange-primary mr-3 text-xl"></i>Java <div class="skill-bar ml-2" data-skill="90"></div></li>
-                        <li class="flex items-center" data-skill-level="85"><i class="fab fa-html5 text-orange-primary mr-3 text-xl"></i>HTML <div class="skill-bar ml-2" data-skill="85"></div></li>
-                        <li class="flex items-center" data-skill-level="80"><i class="fab fa-css3-alt text-orange-primary mr-3 text-xl"></i>CSS <div class="skill-bar ml-2" data-skill="80"></div></li>
-                    </ul>
-                    <div class="skill-chart" id="chart-languages"></div>
-                </div>
-                <!-- Frameworks/Tools -->
-                <div class="skill-card glassmorphism p-6 rounded-xl shadow-lg cyber-border w-full max-w-full hover:neon-glow transition-all duration-300 tilt-effect" data-animate="slide-in-right">
-                    <h3 class="text-2xl font-semibold mb-4 text-[#e0e0e0] flex items-center"><i class="fas fa-tools mr-3 text-orange-primary"></i>Frameworks/Tools</h3>
-                    <ul class="list-none text-lg text-[#a0a0a0] space-y-2">
-                        <li class="flex items-center" data-skill-level="90"><i class="fas fa-leaf text-orange-primary mr-3 text-xl"></i>Spring Boot <div class="skill-bar ml-2" data-skill="90"></div></li>
-                        <li class="flex items-center" data-skill-level="80"><i class="fas fa-code-branch text-orange-primary mr-3 text-xl"></i>Spring MVC <div class="skill-bar ml-2" data-skill="80"></div></li>
-                        <li class="flex items-center" data-skill-level="75"><i class="fas fa-database text-orange-primary mr-3 text-xl"></i>Hibernate <div class="skill-bar ml-2" data-skill="75"></div></li>
-                        <li class="flex items-center" data-skill-level="85"><i class="fas fa-exchange-alt text-orange-primary mr-3 text-xl"></i>REST APIs <div class="skill-bar ml-2" data-skill="85"></div></li>
-                        <li class="flex items-center" data-skill-level="70"><i class="fas fa-box-open text-orange-primary mr-3 text-xl"></i>Maven <div class="skill-bar ml-2" data-skill="70"></div></li>
-                        <li class="flex items-center" data-skill-level="65"><i class="fab fa-docker text-orange-primary mr-3 text-xl"></i>Docker <div class="skill-bar ml-2" data-skill="65"></div></li>
-                        <li class="flex items-center" data-skill-level="70"><i class="fas fa-laptop-code text-orange-primary mr-3 text-xl"></i>Eclipse <div class="skill-bar ml-2" data-skill="70"></div></li>
-                        <li class="flex items-center" data-skill-level="80"><i class="fas fa-paper-plane text-orange-primary mr-3 text-xl"></i>Postman <div class="skill-bar ml-2" data-skill="80"></div></li>
-                    </ul>
-                    <div class="skill-chart" id="chart-frameworks"></div>
-                </div>
-                <!-- Database -->
-                <div class="skill-card glassmorphism p-6 rounded-xl shadow-lg cyber-border w-full max-w-full hover:neon-glow transition-all duration-300 tilt-effect" data-animate="slide-in-left">
-                    <h3 class="text-2xl font-semibold mb-4 text-[#e0e0e0] flex items-center"><i class="fas fa-database mr-3 text-orange-primary"></i>Database</h3>
-                    <ul class="list-none text-lg text-[#a0a0a0] space-y-2">
-                        <li class="flex items-center" data-skill-level="85"><i class="fas fa-server text-orange-primary mr-3 text-xl"></i>MySQL <div class="skill-bar ml-2" data-skill="85"></div></li>
-                    </ul>
-                    <div class="skill-chart" id="chart-database"></div>
-                </div>
-                <!-- DevOps/Other -->
-                <div class="skill-card glassmorphism p-6 rounded-xl shadow-lg cyber-border w-full max-w-full hover:neon-glow transition-all duration-300 tilt-effect" data-animate="slide-in-right">
-                    <h3 class="text-2xl font-semibold mb-4 text-[#e0e0e0] flex items-center"><i class="fas fa-cloud mr-3 text-orange-primary"></i>DevOps/Other</h3>
-                    <ul class="list-none text-lg text-[#a0a0a0] space-y-2">
-                        <li class="flex items-center" data-skill-level="70"><i class="fab fa-git-alt text-orange-primary mr-3 text-xl"></i>Git <div class="skill-bar ml-2" data-skill="70"></div></li>
-                        <li class="flex items-center" data-skill-level="60"><i class="fas fa-ticket-alt text-orange-primary mr-3 text-xl"></i>Jira <div class="skill-bar ml-2" data-skill="60"></div></li>
-                        <li class="flex items-center" data-skill-level="75"><i class="fab fa-github text-orange-primary mr-3 text-xl"></i>GitHub <div class="skill-bar ml-2" data-skill="75"></div></li>
-                    </ul>
-                    <div class="skill-chart" id="chart-devops"></div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl font-semibold text-[#e0e0e0] flex items-center"><i class="fas fa-database mr-3 text-orange-primary"></i>Data Engineering</h3>
+                        <span class="text-xs px-3 py-1 rounded-full bg-[#222] text-[#bbb] border border-[#333]">Core Focus</span>
+                    </div>
+                    <div class="skill-grid text-sm">
+                        <span class="skill-badge"><i class="fas fa-table mr-2"></i>SQL & Query Optimization</span>
+                        <span class="skill-badge"><i class="fas fa-project-diagram mr-2"></i>Data Modeling (OLTP/OLAP)</span>
+                        <span class="skill-badge"><i class="fas fa-exchange-alt mr-2"></i>ETL / ELT Pipelines</span>
+                        <span class="skill-badge"><i class="fab fa-python mr-2"></i>Python (Pandas)</span>
+                        <span class="skill-badge"><i class="fas fa-file-image mr-2"></i>OCR (Tesseract/OpenCV)</span>
+                        <span class="skill-badge"><i class="fas fa-language mr-2"></i>NLP (spaCy/NLTK)</span>
+                        <span class="skill-badge"><i class="fas fa-brain mr-2"></i>AI/ML (Scikit-learn)</span>
+                        <span class="skill-badge"><i class="fas fa-warehouse mr-2"></i>Data Warehousing (ODS, Marts)</span>
+                        <span class="skill-badge"><i class="fas fa-shield-alt mr-2"></i>Data Quality & Governance</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -146,10 +146,37 @@
                 <!-- Timeline Line -->
                 <div class="absolute left-1/2 transform -translate-x-1/2 w-1 bg-[#2a2a2a] h-full hidden md:block"></div>
 
-                <!-- Java Developer Intern -->
+                <!-- Associate Software Engineer (Data) - Infostats -->
                 <div class="mb-12 flex flex-col md:flex-row items-center md:items-start justify-between">
                     <div class="md:w-1/2 md:pr-8 text-right md:order-1 order-2 mt-4 md:mt-0">
                         <div class="bg-cyber-gray p-6 rounded-xl shadow-lg cyber-border timeline-item glassmorphism tilt-effect" data-animate="slide-in-left">
+                            <h3 class="text-2xl font-semibold text-[#e0e0e0]">Associate Software Engineer (Data)</h3>
+                            <p class="text-lg text-orange-primary mb-2">Infostats</p>
+                            <p class="text-md text-[#a0a0a0] mb-4">Oct 1, 2025 - Present</p>
+                            <ul class="list-disc list-inside text-md text-[#a0a0a0]">
+                                <li>Design and develop Data Marts and Operational Data Stores (ODS).</li>
+                                <li>Create efficient data models and schemas for analytics and reporting.</li>
+                                <li>Develop and maintain ETL/ELT pipelines.</li>
+                                <li>Monitor and optimize data store performance for efficient retrieval.</li>
+                                <li>Enforce data quality and governance standards.</li>
+                                <li>Collaborate with business analysts, data scientists, and stakeholders.</li>
+                                <li>Maintain detailed technical documentation.</li>
+                                <li>Provide mentorship to junior engineers and analysts.</li>
+                                <li>Ensure compliance with data security and regulatory standards.</li>
+                                <li>Cloud services and related development.</li>
+                                <li>AI and related development.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 md:pl-8 md:order-2 order-1 flex justify-center md:justify-start">
+                        <div class="w-4 h-4 bg-orange-primary rounded-full absolute md:relative top-0 md:top-auto z-10 flex-shrink-0"></div>
+                    </div>
+                </div>
+
+                <!-- Java Developer Intern -->
+                <div class="mb-12 flex flex-col md:flex-row items-center md:items-start justify-between">
+                    <div class="md:w-1/2 md:pl-8 md:order-2 text-left md:mt-0 mt-4 order-2">
+                        <div class="bg-cyber-gray p-6 rounded-xl shadow-lg cyber-border timeline-item glassmorphism tilt-effect" data-animate="slide-in-right">
                             <h3 class="text-2xl font-semibold text-[#e0e0e0]">Java Developer Intern</h3>
                             <p class="text-lg text-orange-primary mb-2">Excerpt Technologies, Bangalore</p>
                             <p class="text-md text-[#a0a0a0] mb-4">Jul 2024 - Sep 2024</p>
@@ -160,52 +187,40 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="md:w-1/2 md:pl-8 md:order-2 order-1 flex justify-center md:justify-start">
+                    <div class="md:w-1/2 md:pr-8 md:order-1 flex justify-center md:justify-end order-1">
                         <div class="w-4 h-4 bg-orange-primary rounded-full absolute md:relative top-0 md:top-auto z-10 flex-shrink-0"></div>
                     </div>
                 </div>
 
-                <!-- Customer Service Associate -->
-                <div class="mb-12 flex flex-col md:flex-row items-center md:items-start justify-between">
-                    <div class="md:w-1/2 md:pl-8 md:order-2 text-left md:mt-0 mt-4 order-2">
-                        <div class="bg-cyber-gray p-6 rounded-xl shadow-lg cyber-border timeline-item glassmorphism tilt-effect" data-animate="slide-in-right">
-                            <h3 class="text-2xl font-semibold text-[#e0e0e0]">Customer Service Associate</h3>
-                            <p class="text-lg text-orange-primary mb-2">Teleperformance, Bangalore</p>
-                            <p class="text-md text-[#a0a0a0] mb-4">Apr 2022 - Dec 2022</p>
-                            <ul class="list-disc list-inside text-md text-[#a0a0a0]">
-                                <li>Resolved complex client banking issues through proactive problem-solving during monthly meetings, ensuring high customer satisfaction.</li>
-                                <li>Led team briefings in the absence of the team leader, fostering clear communication and alignment on objectives.</li>
-                                <li>Analyzed performance reports to identify trends and implement strategies for process improvement.</li>
-                                <li>Collaborated with clients and internal teams to address queries, streamline operations, and enhance service delivery.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="md:w-1/2 md:pr-8 md:order-1 flex justify-center md:justify-end">
-                        <div class="w-4 h-4 bg-orange-primary rounded-full absolute md:relative top-0 md:top-auto z-10 flex-shrink-0"></div>
-                    </div>
-                </div>
+                
             </div>
         </section>
 
         <!-- Projects Section -->
         <section id="projects" class="container mx-auto px-4 fade-in w-full max-w-full py-6 md:py-10" aria-labelledby="projects-heading">
             <h2 id="projects-heading" class="text-4xl font-bold text-center mb-12 text-shimmer glitch-effect" data-text="My Projects">My Projects</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div class="max-w-6xl mx-auto mb-6 flex flex-wrap gap-3 justify-center">
+                <button class="btn-secondary btn-sound project-filter" data-filter="all">All</button>
+                <button class="btn-secondary btn-sound project-filter" data-filter="backend">Backend</button>
+                <button class="btn-secondary btn-sound project-filter" data-filter="data">Data</button>
+                <button class="btn-secondary btn-sound project-filter" data-filter="web">Web</button>
+            </div>
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
 
                 <!-- Project 1: Music Hub -->
-                <div class="project-card glassmorphism p-6 rounded-xl shadow-lg cyber-border w-full max-w-full hover:neon-glow transition-all duration-300 tilt-effect" data-animate="scale-in">
+                <div class="project-card glassmorphism p-6 rounded-xl shadow-lg cyber-border w-full max-w-full hover:neon-glow transition-all duration-300 tilt-effect" data-animate="scale-in" data-tags="backend web">
                     <h3 class="text-2xl font-semibold mb-4 text-[#e0e0e0]">Music Hub</h3>
                     <div class="carousel-container mb-4" data-project="music-hub">
                         <div class="carousel-images w-full max-w-full">
-                            <img src="images/Music Hub - Home.png" srcset="images/Music Hub - Home.png 1x, images/Music Hub - Home.png 2x" alt="Music Hub Screenshot 1" loading="lazy" class="w-full max-w-full h-auto rounded-xl"/>
-                            <img src="images/View Playlists.png" srcset="images/View Playlists.png 1x, images/View Playlists.png 2x" alt="Music Hub Screenshot 2" loading="lazy" class="w-full max-w-full h-auto rounded-xl"/>
-                            <img src="images/View Songs - Customer.png" srcset="images/View Songs - Customer.png 1x, images/View Songs - Customer.png 2x" alt="Music Hub Screenshot 3" loading="lazy" class="w-full max-w-full h-auto rounded-xl"/>
-                            <img src="images/Customer Dashboard - Music Application.png" srcset="images/Customer Dashboard - Music Application.png 1x, images/Customer Dashboard - Music Application.png 2x" alt="Music Hub Screenshot 4" loading="lazy" class="w-full max-w-full h-auto rounded-xl"/>
+                            <img src="images/Music Hub - Home.png" srcset="images/Music Hub - Home.png 1x, images/Music Hub - Home.png 2x" alt="Music Hub Screenshot 1" loading="lazy" class="w-full max-w-full h-auto rounded-xl lightbox-trigger"/>
+                            <img src="images/View Playlists.png" srcset="images/View Playlists.png 1x, images/View Playlists.png 2x" alt="Music Hub Screenshot 2" loading="lazy" class="w-full max-w-full h-auto rounded-xl lightbox-trigger"/>
+                            <img src="images/View Songs - Customer.png" srcset="images/View Songs - Customer.png 1x, images/View Songs - Customer.png 2x" alt="Music Hub Screenshot 3" loading="lazy" class="w-full max-w-full h-auto rounded-xl lightbox-trigger"/>
+                            <img src="images/Customer Dashboard - Music Application.png" srcset="images/Customer Dashboard - Music Application.png 1x, images/Customer Dashboard - Music Application.png 2x" alt="Music Hub Screenshot 4" loading="lazy" class="w-full max-w-full h-auto rounded-xl lightbox-trigger"/>
                         </div>
                         <button class="carousel-button left btn-sound pulse-glow" onclick="prevSlide('music-hub')"><i class="fas fa-chevron-left"></i></button>
                         <button class="carousel-button right btn-sound pulse-glow" onclick="nextSlide('music-hub')"><i class="fas fa-chevron-right"></i></button>
                     </div>
-                    <p class="text-md text-[#a0a0a0] mb-4">Developed a full-stack music application using Java and Spring Boot, enabling user authentication, playlist creation, and song management. Engineered robust data persistence with JPA and Hibernate, designing and maintaining MySQL database schemas and entity relationships. Implemented RESTful APIs and dynamic web interfaces with Thymeleaf, optimizing user experience and application performance. Integrated Razorpay payment gateway for secure premium subscription processing, enhancing application functionality and user engagement.</p>
+                    
                     <p class="text-sm text-[#707070] mb-4">Technologies: Java, Spring Boot, JPA, Hibernate, MySQL, REST APIs, Thymeleaf, Razorpay</p>
                     <div class="flex flex-wrap gap-3">
                         <a href="https://musichub-e2rz.onrender.com/" target="_blank" class="btn-primary flex items-center text-sm btn-sound">
@@ -218,18 +233,18 @@
                 </div>
 
                 <!-- Project 2: Expense Tracker -->
-                <div class="project-card glassmorphism p-6 rounded-xl shadow-lg cyber-border w-full max-w-full hover:neon-glow transition-all duration-300 tilt-effect" data-animate="scale-in">
+                <div class="project-card glassmorphism p-6 rounded-xl shadow-lg cyber-border w-full max-w-full hover:neon-glow transition-all duration-300 tilt-effect" data-animate="scale-in" data-tags="backend web">
                     <h3 class="text-2xl font-semibold mb-4 text-[#e0e0e0]">Expense Tracker</h3>
                     <div class="carousel-container mb-4" data-project="expense-tracker">
                         <div class="carousel-images w-full max-w-full">
-                            <img src="images/Expenses Trakcer main page.png" srcset="images/Expenses Trakcer main page.png 1x, images/Expenses Trakcer main page.png 2x" alt="Expense Tracker Screenshot 1" loading="lazy" class="w-full max-w-full h-auto rounded-xl"/>
-                            <img src="images/Expenses Trakcer main page (2).png" srcset="images/Expenses Trakcer main page (2).png 1x, images/Expenses Trakcer main page (2).png 2x" alt="Expense Tracker Screenshot 2" loading="lazy" class="w-full max-w-full h-auto rounded-xl"/>
-                            <img src="images/add expense.png" srcset="images/add expense.png 1x, images/add expense.png 2x" alt="Expense Tracker Screenshot 3" loading="lazy" class="w-full max-w-full h-auto rounded-xl"/>
+                            <img src="images/Expenses Trakcer main page.png" srcset="images/Expenses Trakcer main page.png 1x, images/Expenses Trakcer main page.png 2x" alt="Expense Tracker main page" loading="lazy" class="w-full max-w-full h-auto rounded-xl lightbox-trigger"/>
+                            <img src="images/Expenses Trakcer main page (2).png" srcset="images/Expenses Trakcer main page (2).png 1x, images/Expenses Trakcer main page (2).png 2x" alt="Expense Tracker summary view" loading="lazy" class="w-full max-w-full h-auto rounded-xl lightbox-trigger"/>
+                            <img src="images/add expense.png" srcset="images/add expense.png 1x, images/add expense.png 2x" alt="Add expense form" loading="lazy" class="w-full max-w-full h-auto rounded-xl lightbox-trigger"/>
                         </div>
                         <button class="carousel-button left btn-sound pulse-glow" onclick="prevSlide('expense-tracker')"><i class="fas fa-chevron-left"></i></button>
                         <button class="carousel-button right btn-sound pulse-glow" onclick="nextSlide('expense-tracker')"><i class="fas fa-chevron-right"></i></button>
                     </div>
-                    <p class="text-md text-[#a0a0a0] mb-4">Developed a web-based expense tracker using Spring Boot and Java for efficient expense management. Implemented secure user authentication and registration features. Designed intuitive interfaces for adding, updating, and viewing expenses. Enabled expense filtering and reporting to help users analyze their spending patterns.</p>
+                    
                     <p class="text-sm text-[#707070] mb-4">Technologies: Java, Spring Boot, Thymeleaf</p>
                     <div class="flex flex-wrap gap-3">
                         <a href="https://github.com/VISHWANATH2000/ExpenseTracker" target="_blank" class="btn-secondary flex items-center text-sm btn-sound">
@@ -239,18 +254,18 @@
                 </div>
 
                 <!-- Project 3: Tax Calculation (New Project) -->
-                <div class="project-card glassmorphism p-6 rounded-xl shadow-lg cyber-border w-full max-w-full hover:neon-glow transition-all duration-300 tilt-effect" data-animate="scale-in">
+                <div class="project-card glassmorphism p-6 rounded-xl shadow-lg cyber-border w-full max-w-full hover:neon-glow transition-all duration-300 tilt-effect" data-animate="scale-in" data-tags="web data">
                     <h3 class="text-2xl font-semibold mb-4 text-[#e0e0e0]">Tax Calculation App</h3>
                     <div class="carousel-container mb-4" data-project="tax-calculation">
                         <div class="carousel-images w-full max-w-full">
-                            <img src="images/Dashboard - Tax Calculator.png" srcset="images/Dashboard - Tax Calculator.png 1x, images/Dashboard - Tax Calculator.png 2x" alt="Tax Calculation Screenshot 1" loading="lazy" class="w-full max-w-full h-auto rounded-xl"/>
-                            <img src="images/Calculate Tax - Tax Calculator.png" srcset="images/Calculate Tax - Tax Calculator.png 1x, images/Calculate Tax - Tax Calculator.png 2x" alt="Tax Calculation Screenshot 2" loading="lazy" class="w-full max-w-full h-auto rounded-xl"/>
-                            <img src="images/How It Works - Tax Calculator.png" srcset="images/How It Works - Tax Calculator.png 1x, images/How It Works - Tax Calculator.png 2x" alt="Tax Calculation Screenshot 3" loading="lazy" class="w-full max-w-full h-auto rounded-xl"/>
+                            <img src="images/Dashboard - Tax Calculator.png" srcset="images/Dashboard - Tax Calculator.png 1x, images/Dashboard - Tax Calculator.png 2x" alt="Tax Calculation Screenshot 1" loading="lazy" class="w-full max-w-full h-auto rounded-xl lightbox-trigger"/>
+                            <img src="images/Calculate Tax - Tax Calculator.png" srcset="images/Calculate Tax - Tax Calculator.png 1x, images/Calculate Tax - Tax Calculator.png 2x" alt="Tax Calculation Screenshot 2" loading="lazy" class="w-full max-w-full h-auto rounded-xl lightbox-trigger"/>
+                            <img src="images/How It Works - Tax Calculator.png" srcset="images/How It Works - Tax Calculator.png 1x, images/How It Works - Tax Calculator.png 2x" alt="Tax Calculation Screenshot 3" loading="lazy" class="w-full max-w-full h-auto rounded-xl lightbox-trigger"/>
                         </div>
                         <button class="carousel-button left btn-sound pulse-glow" onclick="prevSlide('tax-calculation')"><i class="fas fa-chevron-left"></i></button>
                         <button class="carousel-button right btn-sound pulse-glow" onclick="nextSlide('tax-calculation')"><i class="fas fa-chevron-right"></i></button>
                     </div>
-                    <p class="text-md text-[#a0a0a0] mb-4">A simple web application designed to calculate income tax based on user-provided income and deductions. This project demonstrates fundamental web development skills, including form handling, basic JavaScript calculations, and dynamic content updates. It provides a clear and intuitive interface for quick tax estimations.</p>
+                    
                     <p class="text-sm text-[#707070] mb-4">Technologies: HTML, CSS, JavaScript</p>
                     <div class="flex flex-wrap gap-3">
                         <a href="https://github.com/VISHWANATH2000/TaxCalculationApp" target="_blank" class="btn-secondary flex items-center text-sm btn-sound">
@@ -284,8 +299,12 @@
                 <div class="bg-cyber-gray p-6 rounded-xl shadow-lg cyber-border md:col-span-2 tilt-effect" data-animate="fade-in-up">
                     <h3 class="text-2xl font-semibold text-[#e0e0e0] mb-4">Certifications</h3>
                     <ul class="list-disc list-inside text-lg text-[#a0a0a0]">
-                        <li>Java Full Stack: Excerpt Technologies (3 months, Core Java, Spring Boot, REST APIs, MySQL)</li>
-                        <li>Java Full Stack: Centum Foundation (1 month, Backend + Frontend)</li>
+                        <li>
+                            <a href="https://www.linkedin.com/learning/certificates/f0054f4c2169adf770f8fd64006ef60b3cba369a32a6b86c71b2e61083fcf47c?trk=share_certificate" target="_blank" class="text-orange-primary hover:text-orange-dark">Data Engineering Foundations Professional Certificate (Astronomer) — LinkedIn Learning</a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/learning/certificates/0bb212361efce65da71dffcb39954821ee314300c4b66a017fd77982827475a0?trk=share_certificate" target="_blank" class="text-orange-primary hover:text-orange-dark">ETL in Python and SQL — LinkedIn Learning</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -326,9 +345,12 @@
                     <a href="tel:+917892279940" class="text-orange-primary hover:text-orange-dark text-2xl transition-colors duration-300">
                         <i class="fas fa-phone"></i>
                     </a>
-                    <a href="mailto:vishwanathareddy598@gmail.com" class="text-orange-primary hover:text-orange-dark text-2xl transition-colors duration-300">
+                    <a id="email-link" href="mailto:vishwanathareddy598@gmail.com" class="text-orange-primary hover:text-orange-dark text-2xl transition-colors duration-300">
                         <i class="fas fa-envelope"></i>
                     </a>
+                    <button id="copy-email" class="text-orange-primary hover:text-orange-dark text-2xl transition-colors duration-300" title="Copy email">
+                        <i class="fas fa-copy"></i>
+                    </button>
                     <a href="https://linkedin.com/in/vishwanatha789" target="_blank" class="text-orange-primary hover:text-orange-dark text-2xl transition-colors duration-300">
                         <i class="fab fa-linkedin"></i>
                     </a>
@@ -337,6 +359,9 @@
                     </a>
                 </div>
                 <div class="flex justify-center space-x-4 mt-8">
+                    <a id="resume-download" href="resume.pdf" download class="btn-primary flex items-center text-sm btn-sound pulse-glow" aria-label="Download Resume">
+                        <i class="fas fa-file-download mr-2"></i> Download Resume
+                    </a>
                     <button id="voice-ui-button" class="btn-secondary flex items-center text-sm btn-sound pulse-glow">
                         <i class="fas fa-microphone mr-2"></i> Voice Assistant
                     </button>
@@ -349,8 +374,12 @@
     </main>
     <!-- Footer -->
     <footer class="bg-[#1a1a1a] p-6 text-center text-[#a0a0a0] text-sm border-t border-[#2a2a2a] mt-0" role="contentinfo">
-        <p>&copy; 2024 Vishwanatha Reddy R. All rights reserved.</p>
+        <p>&copy; <span id="footer-year">2024</span> Vishwanatha Reddy R. All rights reserved.</p>
     </footer>
+
+    <button id="back-to-top" class="fixed bottom-6 right-6 hidden btn-primary btn-sound" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <!-- Custom Modal for Messages -->
     <div id="custom-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[1001]">
@@ -363,9 +392,15 @@
         </div>
     </div>
 
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="hidden fixed inset-0 bg-black bg-opacity-90 z-[1002] items-center justify-center">
+        <button id="lightbox-close" class="absolute top-5 right-6 text-white text-3xl"><i class="fas fa-times"></i></button>
+        <img id="lightbox-image" src="" alt="Preview" class="max-w-[90vw] max-h-[85vh] rounded-lg shadow-2xl border border-[#2a2a2a]" />
+    </div>
+
     <!-- Custom JavaScript -->
-    <script src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script src="script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js" defer></script>
     <script>
         (function(){
             emailjs.init("YOUR_USER_ID"); // Replace with your EmailJS user ID
